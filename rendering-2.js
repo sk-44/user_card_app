@@ -12,15 +12,24 @@ function animalImgUrl(animal) {
     }
 }
 
-let animalP = document.createElement('p');
-animalP.innerHTML = 'Our animal is dog.';
+function renderAnimal(animal, elm) {
+    let animalP = document.createElement('p');
+    animalP.innerHTML = `Our animal is ${animal}.`;
 
-let animalImg = document.createElement('img');
-animalImg.src = animalImgUrl('dog');
-animalImg.classList.add('animalImg');
+    let animalImg = document.createElement('img');
+    animalImg.src = animalImgUrl(animal);
+    animalImg.classList.add('animalImg');
 
-let animalDiv = document.createElement('div');
-animalDiv.classList.add('animalDiv', 'col');
-animalDiv.append(animalP, animalImg);
+    let animalDiv = document.createElement('div');
+    animalDiv.classList.add('animalDiv', 'col');
+    animalDiv.append(animalP, animalImg);
 
-document.getElementById('animal-container').append(animalDiv);
+    elm.append(animalDiv);
+}
+
+let animalElm = document.getElementById('animal-container');
+
+renderAnimal('dog', animalElm);
+renderAnimal('cat', animalElm);
+renderAnimal('bird', animalElm);
+renderAnimal('other', animalElm);
