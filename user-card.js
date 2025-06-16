@@ -90,7 +90,7 @@ class Employee {
     }
 }
 
-const profile_card = document.getElementById("profiles")
+const profileDiv = document.getElementById("profiles")
 
 let employee1 = new Employee(
     "Kaiden",
@@ -117,7 +117,5 @@ let employee3 = new Employee(
     "https://randomuser.me/api/portraits/med/men/93.jpg"
 );
 
-employee1 = createEmployeeCard(employee1);
-employee2 = createEmployeeCard(employee2);
-employee3 = createEmployeeCard(employee3);
-profile_card.append(employee1, employee2, employee3);
+let employees = [employee1, employee2, employee3];
+employees.map(employee => profileDiv.append(createEmployeeCard(employee)));
