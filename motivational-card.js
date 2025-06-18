@@ -1,4 +1,53 @@
+function motivationalSpeechWallpaper(text, colorCode, imageUrl, verticalAlign, horizontalAlign, domObj) {
+    let containerDiv = document.createElement("div");
+    containerDiv.classList.add("container", "d-flex", "justify-content-center");
 
+    let bgDiv = document.createElement("div");
+    bgDiv.classList.add("d-flex", "vh-75", "p-md-5", "p-3", "my-5", "col-md-8", "col-12", "imgBackground");
+    containerDiv.append(bgDiv);
+
+    bgDiv.style.backgroundImage = `url('${imageUrl}')`;
+    switch (verticalAlign) {
+        case "top":
+            bgDiv.classList.add("align-items-start");
+            break;
+        case "center":
+            bgDiv.classList.add("align-items-center");
+            break;
+        case "bottom":
+            bgDiv.classList.add("align-items-end");
+            break;
+        default:
+            bgDiv.classList.add("align-items-center");
+            break;
+    }
+    switch (horizontalAlign) {
+        case "left":
+            bgDiv.classList.add("justify-content-start");
+            break;
+        case "center":
+            bgDiv.classList.add("justify-content-center");
+            break;
+        case "right":
+            bgDiv.classList.add("justify-content-end");
+            break;
+        default:
+            bgDiv.classList.add("justify-content-center");
+            break;
+    }
+
+    let textDiv = document.createElement("div");
+    textDiv.classList.add("col-8");
+    bgDiv.append(textDiv);
+
+    let textHeading = document.createElement("h3");
+    textHeading.classList.add("paperText");
+    textHeading.innerHTML = text;
+    textHeading.style.color = `#${colorCode}`;
+    textDiv.append(textHeading);
+
+    domObj.append(containerDiv);
+}
 
 
 let domObj = document.getElementById("target");
