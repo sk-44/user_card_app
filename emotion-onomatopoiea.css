@@ -2,3 +2,13 @@
     width: 100vw;
     height: 500px;
 }
+
+.expandLink {
+    position: relative;
+    height: 230px;
+    z-index: 1;
+}
+
+.imgFit {
+    object-fit: contain;
+}

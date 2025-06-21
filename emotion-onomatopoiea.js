@@ -88,8 +88,8 @@ const pictureDictionary = {
 
 const emotions = [
     new EmotionObject("angry", "feeling or showing strong annoyance, displeasure, or hostility; full of anger.", "red", ["bark","grunt", "roar","whack","smack","hiss"]),
-    new EmotionObject("happy", "feeling or showing pleasure or contentment.", "yellow", ["bling","chatter","chant","giggle"]),
-    new EmotionObject("bad", "not such as to be hoped for or desired; unpleasant or unwelcome.", "beige", ["ahem","clatter","clunk"]),
+    new EmotionObject("happy", "feeling or showing pleasure or contentment.", "pink", ["bling","chatter","chant","giggle"]),
+    new EmotionObject("bad", "not such as to be hoped for or desired; unpleasant or unwelcome.", "lightblue", ["ahem","clatter","clunk"]),
     new EmotionObject("sad", "feeling or showing sorrow; unhappy.", "grey", ["bawl","whine","waah"]),
     new EmotionObject("surprised", "to feel mild astonishment or shock.", "purple", ["boom","honk","zing"]),
     new EmotionObject("fearful", "feeling afraid; showing fear or anxiety.", "green", ["buzz","caw","crawl"]),
@@ -97,13 +97,14 @@ const emotions = [
 ];
 
 
-let containerDiv = document.createElement("div");
-containerDiv.classList.add("container", "d-flex", "justify-content-center", "flex-wrap");
-
 let emotionDivs = emotions.map(emotion => {
     let emotionDiv = document.createElement("div");
-    emotionDiv.classList.add("col-12", "col-md-6", "col-lg-3", "m-4", "p-4", "text-center", "text-white");
+    emotionDiv.classList.add("col-12", "col-md-6", "col-lg-3", "m-4", "p-4", "text-center", "text-white", "expandLink");
     emotionDiv.style.backgroundColor = emotion.color;
+
+    // let emotionRef = document.createElement("a");
+    // emotionRef.setAttribute("href", `#${emotion.emotion}`);
+    // emotionDiv.append(emotionRef);
 
     let titleH3 = document.createElement("h3");
     titleH3.innerText = emotion.emotion;
@@ -112,24 +113,70 @@ let emotionDivs = emotions.map(emotion => {
     let descriptionP = emotion.getHtmlContainerString();
     emotionDiv.append(descriptionP);
 
-    // let onomatopoeiaWords = emotion.getOnomatopoeiaWords();
-    // onomatopoeiaWords.forEach(word => {
-    //     let wordP = document.createElement("p");
-    //     wordP.innerHTML = `<strong>${word.word}</strong>: ${word.defintion}`;
-    //     if (word.pictureUrl) {
-    //         let img = document.createElement("img");
-    //         img.src = word.pictureUrl;
-    //         img.alt = word.word;
-    //         img.style.width = "100px";
-    //         img.style.height = "100px";
-    //         wordP.appendChild(img);
-    //     }
-    //     emotionDiv.appendChild(wordP);
-    // });
+    emotionDiv.addEventListener("click", () => {
+        location.hash = `#${emotion.emotion}`;
+    });
 
     return emotionDiv;
 });
-containerDiv.append(...emotionDivs);
+
+let wordsDivs = emotions.map(emotion => {
+    let words = emotion.getOnomatopoeiaWords();
+    let wordsDiv = document.createElement("div");
+    wordsDiv.id = emotion.emotion;
+    wordsDiv.style.backgroundColor = emotion.color;
+    
+    let containerDiv = document.createElement("div");
+    containerDiv.classList.add("container", "py-3");
+
+    let emotionTextContainer = document.createElement("div");
+    emotionTextContainer.classList.add("text-white", "p-3");
+    let emotionH2 = document.createElement("h2");
+    emotionH2.innerHTML = emotion.emotion;
+    let emotionP = document.createElement("p");
+    emotionP.innerHTML = emotion.description;
+    emotionTextContainer.append(emotionH2, emotionP);
+
+    let wordDiv = document.createElement("div");
+    wordDiv.classList.add("d-flex", "justify-content-between", "flex-wrap");
+
+    containerDiv.append(emotionTextContainer, wordDiv);
+
+    words.forEach(word => {
+        let wordCard = document.createElement("div");
+        wordCard.classList.add("d-flex", "col-12", "col-md-5", "bg-light", "px-0", "m-2");
+        
+        let wordText = document.createElement("div");
+        wordText.classList.add("col-8");
+        let wordTitle = document.createElement("h4");
+        wordTitle.classList.add("p-2");
+        wordTitle.innerText = word.word;
+        let wordDef = document.createElement("p");
+        wordDef.innerText = word.defintion;
+        wordText.append(wordTitle, wordDef);
+
+        let wordImg = document.createElement("div");
+        wordImg.classList.add("col-4", "d-flex", "justify-content-center", "align-items-center", "p-1","m-0");
+        let img = document.createElement("img");
+        img.classList.add("col-12", "imgFit", "p-0", "m-0");
+        img.src = word.pictureUrl;
+        wordImg.append(img);
+
+        wordCard.append(wordText, wordImg);
+        wordDiv.append(wordCard);
+    });
+
+    wordsDiv.append(containerDiv);
+
+    return wordsDiv
+});
 
 
-document.getElementById("target").append(containerDiv);
+let emotionContainerDiv = document.createElement("div");
+emotionContainerDiv.classList.add("container", "d-flex", "justify-content-center", "flex-wrap");
+emotionContainerDiv.append(...emotionDivs);
+
+let emotionDiv = document.createElement("div");
+emotionDiv.append(...wordsDivs);
+
+document.getElementById("target").append(emotionContainerDiv, emotionDiv);
