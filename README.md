@@ -1,0 +1,2 @@
+- javascriptでのDOM操作学習用リポジトリ
+- 同名称の`.html`、`.css`、`.js`で一セット
